@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:     Http2 Server Push
- * Plugin URI:      PLUGIN SITE HERE
- * Description:     PLUGIN DESCRIPTION HERE
+ * Plugin URI:      https://github.com/tarosky/http2-server-push
+ * Description:     A plugin which send link headers to integrate HTTP/2 server push.
  * Author:          Takayuki Miyauchi
  * Author URI:      https://tarosky.co.jp/
  * Text Domain:     http2-server-push
