@@ -1,0 +1,5 @@
+{
+    "require": {
+        "miya/gh-auto-updater": "^1.0"
+    }
+}
