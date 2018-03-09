@@ -7,7 +7,7 @@
  * Author URI:      https://tarosky.co.jp/
  * Text Domain:     http2-server-push
  * Domain Path:     /languages
- * Version:         0.1.0
+ * Version:         nightly
  *
  * @package         Http2_Server_Push
  */
