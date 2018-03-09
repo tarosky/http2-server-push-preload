@@ -32,17 +32,29 @@ function get_urls( $wp_links ) {
 	$queue = $wp_links->queue;
 	$default_version = $wp_links->default_version;
 
+	$host_name = parse_url( home_url(), PHP_URL_HOST );
+
 	$urls = array();
 	foreach ( $links as $handle => $meta ) {
 		if ( in_array( $handle, $queue ) && is_string( $meta->src ) ) {
+			$src = $meta->src;
+			if ( preg_match( "#^http://#", $src ) ) {
+				continue;
+			} elseif ( preg_match( "#^https://#", $src )  ) {
+				if ( 0 === strpos( $src, 'https://' . $host_name ) ) {
+					$src = preg_replace( '#https://' . $host_name . '#', '', $src );
+				} else {
+					continue; // Out of the host.
+				}
+			}
 			if ( $meta->ver ) {
 				$version = $meta->ver;
 			} else {
 				$version = $default_version;
 			}
-			$urls[] = $meta->src . '?ver=' . $version;
+			$urls[] = $src . '?ver=' . $version;
 		}
 	}
 
-	return $urls;
+	return array_unique( $urls );
 }
