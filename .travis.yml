@@ -1,45 +1,50 @@
 sudo: false
 dist: trusty
-
 language: php
-
 notifications:
   email:
     on_success: never
     on_failure: change
-
 branches:
   only:
-    - master
-
+  - master
 cache:
   directories:
-    - $HOME/.composer/cache
-
+  - "$HOME/.composer/cache"
 matrix:
   include:
-    - php: 7.2
-      env: WP_VERSION=trunk
-    - php: 7.0
-      env: WP_VERSION=trunk
-    - php: 7.2
-      env: WP_VERSION=latest
-    - php: 7.0
-      env: WP_VERSION=latest
-
+  - php: 7.2
+    env: WP_VERSION=trunk
+  - php: 7.0
+    env: WP_VERSION=trunk
+  - php: 7.2
+    env: WP_VERSION=latest
+  - php: 7.0
+    env: WP_VERSION=latest
 before_script:
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - |
-    if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
-      phpenv config-rm xdebug.ini
-    else
-      echo "xdebug.ini does not exist"
-    fi
-  - |
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      composer global require "phpunit/phpunit=4.8.*|5.7.*"
-    fi
-
+- export PATH="$HOME/.composer/vendor/bin:$PATH"
+- |
+  if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
+    phpenv config-rm xdebug.ini
+  else
+    echo "xdebug.ini does not exist"
+  fi
+- |
+  if [[ ! -z "$WP_VERSION" ]] ; then
+    bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+    composer global require "phpunit/phpunit=4.8.*|5.7.*"
+  fi
 script:
-  - phpunit
+- phpunit
+after_success:
+- sed -i -e "s/nightly/${TRAVIS_TAG}/" self-hosted-wordpress-plugin-on-github.php
+- curl https://raw.githubusercontent.com/miya0001/auto-build/master/auto-build.sh | bash
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: t2t7NON8YRTVNUan+yyUEP1VN5QLY8IMO8BHCQ4eHOzada1zXrP7eimdUdc5ll2lrTPi96NVNcSHNBgKKoqf0SLhA3M5HH0Q8hwM01fubjR5n+Ri4OD8fm5ZEY/bDCIkLzuaIPE1+pgwlN0aZrovIHW/lslKP2fGbL098BPWg0eRdNCzDRbBLIOvpGY0mY4pi7zjA0U/wtMKodDWLkPfBMw6hRLgzrcI+CyiVae28ssrFl0Pw6d9Gk5Wku8S6w8CuyOfgH8iV2u+r0Fq2sYwd0jhoWuHyZsW4pubCmhYa9jjhrA7qG9KdRdN6UIedVxMAM/3RriOfM9KzXeb11ac/0qwxb3Z1Re6s45tDkfiHQcllNTpeBWu1B51NqSgWq34jyAY1HeM+xUzBMnXJ+mP8Zzf3joRDYhuOBQJrYRY3Cz8kjm8Qf1Ym2svwzbT9bEmcCVKpRbSRk/4JOukO/JpzI3p3F0xEPEtX8PBQatQPD/eLmqBTfd7IuIbSgQ+ZcPj4an823ZSlCXccrh48xuBx8jLoDrwzg+gg7Htw2XW0Gpx20wymC9mZPwpVHiiAXWmYUGzLLzqHtbK9RNQ+OJ6a4ylSmetgA3dOpxib+/Y6mwmJRI7czKPAqhtM3cCqKJ6ISQKY4eakP9RBy16VRLzVKeTBOKGxsyDPuTY1AGeiUc=
+  file: http2-server-push.zip
+  on:
+    tags: true
+    repo: tarosky/http2-server-push
