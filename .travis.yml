@@ -8,6 +8,7 @@ notifications:
 branches:
   only:
   - master
+  - "/^v?[0-9\\.]+/"
 cache:
   directories:
   - "$HOME/.composer/cache"
