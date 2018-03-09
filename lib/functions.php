@@ -3,6 +3,7 @@
 namespace Http2_Server_Push;
 
 function send_http2_link_header( $items ) {
+	$items = apply_filters( 'http2_server_push_items', $items );
 	foreach( $items as $as => $urls ) {
 		foreach ( $urls as $url ) {
 			$link = sprintf(
