@@ -10,6 +10,14 @@ This is a plugin which sends link headers for HTTP/2 server push.
 * WordPress 4.9 or later
 * PHP 7 or later
 
+## Download
+
+Please download `http2-server-push-preload.zip` of the latest version from following.
+
+https://github.com/tarosky/http2-server-push-preload/releases
+
+It has a custom updater from GitHub.
+
 ## Customizing
 
 There is a filter hook for items to send as link header.
