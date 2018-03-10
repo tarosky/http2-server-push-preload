@@ -21,7 +21,7 @@ add_action( 'init', 'activate_autoupdate' );
 function activate_autoupdate() {
 	$plugin_slug = plugin_basename( __FILE__ ); // e.g. `hello/hello.php`.
 	$gh_user = 'tarosky';                      // The user name of GitHub.
-	$gh_repo = 'http2-server-push';       // The repository name of your plugin.
+	$gh_repo = 'http2-server-push-preload';       // The repository name of your plugin.
 
 	// Activate automatic update.
 	new Miya\WP\GH_Auto_Updater( $plugin_slug, $gh_user, $gh_repo );

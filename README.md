@@ -1,6 +1,6 @@
 # HTTP/2 Server Push for WordPress
 
-[![Build Status](https://travis-ci.org/tarosky/http2-server-push.svg?branch=master)](https://travis-ci.org/tarosky/http2-server-push)
+[![Build Status](https://travis-ci.org/tarosky/http2-server-push-preload.svg?branch=master)](https://travis-ci.org/tarosky/http2-server-push-preload)
 
 This is a plugin which sends link headers for HTTP/2 server push.
 
