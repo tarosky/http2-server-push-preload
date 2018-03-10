@@ -14,6 +14,7 @@
 
 // Autoload
 require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
+require_once( dirname( __FILE__ ) . '/lib/functions.php' );
 
 add_action( 'init', 'activate_autoupdate' );
 
@@ -32,11 +33,8 @@ if ( ! defined( 'CONCATENATE_SCRIPTS' ) ) {
 
 add_action( 'send_headers', function() {
 	if ( ! is_admin() ) {
-		if ( headers_sent() ) {
-			return;
-		}
 		do_action( 'wp_enqueue_scripts' );
-		send_http2_link_header( array( 'style' => wp_styles(), 'script' => wp_scripts() ) );
+		Http2_Server_Push\send_http2_link_header( Http2_Server_Push\get_enqueued_items() );
 	}
 } );
 
@@ -44,29 +42,8 @@ add_action( 'admin_enqueue_scripts', function() {
 	if ( headers_sent() ) {
 		return;
 	}
-	send_http2_link_header( array( 'style' => wp_styles(), 'script' => wp_scripts() ) );
+	Http2_Server_Push\send_http2_link_header( Http2_Server_Push\get_enqueued_items() );
 }, 9999 );
-
-function send_http2_link_header( $items ) {
-	foreach( $items as $as => $wp_links ) {
-		$link = '';
-		foreach ( $wp_links->queue as $handle ) {
-			if ( $wp_links->registered[ $handle ] && ! preg_match( '/-ie8$/i', $handle ) && 'html5' !== $handle ) {
-				$wp_link = $wp_links->registered[ $handle ];
-				if ( ! is_string( $wp_link->src ) ) {
-					continue;
-				}
-				$src = preg_replace('#^https?://[^/]+#', '', $wp_link->src );
-				$ver = $wp_link->ver ? $wp_link->ver : $wp_links->default_version;
-				$link .= ! empty( $link ) ? ', ' : '';
-				$link .= " <{$src}?ver={$ver}>; rel=preload; as={$as}";
-			}
-		}
-		if ( ! empty( $link ) ) {
-			header( "Link: $link", false );
-		}
-	}
-}
 
 add_filter( 'http_request_args', function ( $response, $url ) {
 	if ( 0 === strpos( $url, 'https://api.wordpress.org/plugins/update-check' ) ) {
