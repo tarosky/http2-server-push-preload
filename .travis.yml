@@ -37,7 +37,7 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: t2t7NON8YRTVNUan+yyUEP1VN5QLY8IMO8BHCQ4eHOzada1zXrP7eimdUdc5ll2lrTPi96NVNcSHNBgKKoqf0SLhA3M5HH0Q8hwM01fubjR5n+Ri4OD8fm5ZEY/bDCIkLzuaIPE1+pgwlN0aZrovIHW/lslKP2fGbL098BPWg0eRdNCzDRbBLIOvpGY0mY4pi7zjA0U/wtMKodDWLkPfBMw6hRLgzrcI+CyiVae28ssrFl0Pw6d9Gk5Wku8S6w8CuyOfgH8iV2u+r0Fq2sYwd0jhoWuHyZsW4pubCmhYa9jjhrA7qG9KdRdN6UIedVxMAM/3RriOfM9KzXeb11ac/0qwxb3Z1Re6s45tDkfiHQcllNTpeBWu1B51NqSgWq34jyAY1HeM+xUzBMnXJ+mP8Zzf3joRDYhuOBQJrYRY3Cz8kjm8Qf1Ym2svwzbT9bEmcCVKpRbSRk/4JOukO/JpzI3p3F0xEPEtX8PBQatQPD/eLmqBTfd7IuIbSgQ+ZcPj4an823ZSlCXccrh48xuBx8jLoDrwzg+gg7Htw2XW0Gpx20wymC9mZPwpVHiiAXWmYUGzLLzqHtbK9RNQ+OJ6a4ylSmetgA3dOpxib+/Y6mwmJRI7czKPAqhtM3cCqKJ6ISQKY4eakP9RBy16VRLzVKeTBOKGxsyDPuTY1AGeiUc=
-  file: http2-server-push.zip
+  file: http2-server-push-preload.zip
   on:
     tags: true
-    repo: tarosky/http2-server-push
+    repo: tarosky/http2-server-push-preload
