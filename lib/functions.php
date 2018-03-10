@@ -2,6 +2,11 @@
 
 namespace Http2_Server_Push;
 
+/**
+ * Send the `link:` http response header.
+ *
+ * @param $items array
+ */
 function send_http2_link_header( $items ) {
 	$items = apply_filters( 'http2_server_push_items', $items );
 	foreach( $items as $as => $urls ) {
@@ -29,6 +34,8 @@ function get_enqueued_items() {
 }
 
 /**
+ * Get the list of url enqueued.
+ *
  * @param $wp_links \WP_Scripts|\WP_Styles
  *
  * @return array
@@ -44,20 +51,20 @@ function get_urls( $wp_links ) {
 	$host_name = parse_url( home_url(), PHP_URL_HOST );
 
 	$urls = array();
-	foreach ( $links as $handle => $meta ) {
-		if ( in_array( $handle, $to_do ) && is_string( $meta->src ) ) {
-			$src = $meta->src;
+	foreach ( $to_do as $handle ) {
+		if ( ! empty( $links[ $handle ] ) && $links[ $handle ]->src ) {
+			$src = $links[ $handle ]->src;
 			if ( preg_match( "#^http://#", $src ) ) {
 				continue;
-			} elseif ( preg_match( "#^https://#", $src )  ) {
+			} elseif ( preg_match( "#^https://#", $src ) ) {
 				if ( 0 === strpos( $src, 'https://' . $host_name ) ) {
 					$src = preg_replace( '#https://' . $host_name . '#', '', $src );
 				} else {
 					continue; // Out of the host.
 				}
 			}
-			if ( $meta->ver ) {
-				$version = $meta->ver;
+			if ( $links[ $handle ]->ver ) {
+				$version = $links[ $handle ]->ver;
 			} else {
 				$version = $default_version;
 			}
