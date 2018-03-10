@@ -37,7 +37,7 @@ server {
 In the output, you can see the `PUSH_PROMISE` that were pushed by the server.
 
 ```
-nghttp -nv https://example.com/ | grep PUSH_PROMISE
+$ nghttp -nv https://example.com/ | grep PUSH_PROMISE
 [  0.217] recv PUSH_PROMISE frame <length=76, flags=0x04, stream_id=13>
 [  0.217] recv PUSH_PROMISE frame <length=84, flags=0x04, stream_id=13>
 [  0.217] recv PUSH_PROMISE frame <length=75, flags=0x04, stream_id=13>
@@ -48,4 +48,10 @@ nghttp -nv https://example.com/ | grep PUSH_PROMISE
 [  0.217] recv PUSH_PROMISE frame <length=90, flags=0x04, stream_id=13>
 [  0.217] recv PUSH_PROMISE frame <length=89, flags=0x04, stream_id=13>
 [  0.217] recv PUSH_PROMISE frame <length=99, flags=0x04, stream_id=13>
+```
+
+To install `nghttp` for macOS:
+
+```
+$ brew install nghttp2
 ```
