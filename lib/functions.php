@@ -20,7 +20,7 @@ function send_http2_link_header( $items ) {
 	}
 
 	if ( $links ) {
-		header( "Link: " . implode( ", ", $links ), false );
+		header( "Link: " . implode( ", ", array_unique( $links ) ), false );
 	}
 }
 

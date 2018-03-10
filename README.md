@@ -10,6 +10,22 @@ This is a plugin which sends link headers to integrate HTTP/2 server push.
 * WordPress 4.9 or later
 * PHP 7 or later
 
+## Customizing
+
+There is a filter hook for items to send as link header.
+
+```
+add_filter( 'http2_server_push_items', function( $items ) {
+  $new = array(
+    'image' => array(
+      '/wp-content/uploads/favicon.png'
+    ),
+  );
+
+  return array_merge_recursive( $items, $new );
+} );
+```
+
 ## Configurating HTTP/2 Server Push for Nginx
 
 You need following configuration for Nginx.

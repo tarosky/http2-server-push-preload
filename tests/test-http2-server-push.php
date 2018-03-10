@@ -37,6 +37,48 @@ class Http2_Server_Push_Test extends WP_UnitTestCase
 		$this->assertTrue( $this->is_contain( "/jquery\.js\?ver\=/", $urls ) );
 	}
 
+	public function test_array_merge_recursive()
+	{
+		$items = array(
+			'style' => array(
+				'test1.css',
+				'test2.css'
+			),
+			'script' => array(
+				'test1.js',
+				'test2.js',
+			),
+		);
+
+		$result = array_merge_recursive( $items, array(
+			'style' => array(
+				'test3.css',
+			),
+			'image' => array(
+				'test1.jpg',
+				'test2.jpg',
+			),
+		) );
+
+		$expect = array(
+			'style' => array(
+				'test1.css',
+				'test2.css',
+				'test3.css',
+			),
+			'script' => array(
+				'test1.js',
+				'test2.js',
+			),
+			'image' => array(
+				'test1.jpg',
+				'test2.jpg',
+			),
+		);
+
+		$this->assertSame( $expect, $result );
+	}
+
 	/**
 	 * @param $regex string The regex to searched.
 	 * @param $array array An array to search.
