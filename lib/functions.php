@@ -13,7 +13,7 @@ function send_http2_link_header( $items ) {
 		foreach ( $urls as $url ) {
 			$links[] = sprintf(
 				'<%s>; rel=preload; as=%s',
-				esc_url_raw( $url ),
+				$url,
 				$as
 			);
 		}
@@ -29,13 +29,13 @@ function send_http2_link_header( $items ) {
  *
  * @return array An array of URLs.
  */
-function get_enqueued_items() {
+function get_preload_items() {
 	$items = array(
 		'style' => get_urls( wp_styles() ),
 		'script' => get_urls( wp_scripts() ),
 	);
 
-	return apply_filters( 'http2_server_push_items', $items );
+	return apply_filters( 'http2_server_preload_items', $items );
 }
 
 /**
@@ -57,8 +57,9 @@ function get_urls( $wp_links ) {
 
 	$urls = array();
 	foreach ( $to_do as $handle ) {
-		if ( ! empty( $links[ $handle ] ) && $links[ $handle ]->src && is_string( $links[ $handle ]->src ) ) {
-			$src = $links[ $handle ]->src;
+		if ( ! empty( $links[ $handle ] ) && ! empty( $links[ $handle ]->src )
+		                        && is_string( $links[ $handle ]->src ) ) {
+			$src = esc_url_raw( $links[ $handle ]->src );
 			if ( preg_match( "#^http://#", $src ) ) {
 				continue;
 			} elseif ( preg_match( "#^https://#", $src ) ) {

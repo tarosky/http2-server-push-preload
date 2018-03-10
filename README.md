@@ -15,7 +15,7 @@ This is a plugin which sends link headers for HTTP/2 server push.
 There is a filter hook for items to send as link header.
 
 ```
-add_filter( 'http2_server_push_items', function( $items ) {
+add_filter( 'http2_server_preload_items', function( $items ) {
   $new = array(
     'image' => array(
       '/wp-content/uploads/favicon.png'

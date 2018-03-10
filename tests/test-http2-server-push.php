@@ -16,7 +16,7 @@ class Http2_Server_Push_Test extends WP_UnitTestCase
 
 	public function test_get_enqueued_items()
 	{
-		$urls = Http2_Server_Push\get_enqueued_items();
+		$urls = Http2_Server_Push\get_preload_items();
 
 		$this->assertTrue( is_array( $urls ) );
 		$this->assertTrue( is_array( $urls['style'] ) );
@@ -42,7 +42,7 @@ class Http2_Server_Push_Test extends WP_UnitTestCase
 
 	public function test_filter_http2_server_push_items()
 	{
-		add_filter( 'http2_server_push_items', function( $items ) {
+		add_filter( 'http2_server_preload_items', function( $items ) {
 			$new = array(
 				'image' => array(
 					'/wp-content/uploads/favicon.png'
@@ -52,7 +52,7 @@ class Http2_Server_Push_Test extends WP_UnitTestCase
 			return array_merge_recursive( $items, $new );
 		} );
 
-		$urls = Http2_Server_Push\get_enqueued_items();
+		$urls = Http2_Server_Push\get_preload_items();
 
 		$this->assertSame( '/wp-content/uploads/favicon.png', $urls['image'][0] );
 		$this->assertTrue( !! $urls['style'] );

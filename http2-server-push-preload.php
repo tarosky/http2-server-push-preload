@@ -34,7 +34,7 @@ if ( ! defined( 'CONCATENATE_SCRIPTS' ) ) {
 add_action( 'send_headers', function() {
 	if ( ! is_admin() ) {
 		do_action( 'wp_enqueue_scripts' );
-		Http2_Server_Push\send_http2_link_header( Http2_Server_Push\get_enqueued_items() );
+		Http2_Server_Push\send_http2_link_header( Http2_Server_Push\get_preload_items() );
 	}
 } );
 
@@ -42,7 +42,7 @@ add_action( 'admin_enqueue_scripts', function() {
 	if ( headers_sent() ) {
 		return;
 	}
-	Http2_Server_Push\send_http2_link_header( Http2_Server_Push\get_enqueued_items() );
+	Http2_Server_Push\send_http2_link_header( Http2_Server_Push\get_preload_items() );
 }, 9999 );
 
 add_filter( 'http_request_args', function ( $response, $url ) {
