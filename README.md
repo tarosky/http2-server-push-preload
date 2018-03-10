@@ -19,16 +19,33 @@ server {
     # Ensure that HTTP/2 is enabled for the server
     listen 443 ssl http2;
 
-
-    ssl_certificate ssl/certificate.pem;
-    ssl_certificate_key ssl/key.pem;
-
-    root /var/www/html;
+    ...
 
     # Intercept Link header and initiate requested Pushes
-    location = /myapp {
+    location = / {
         proxy_pass http://upstream;
-        **http2_push_preload on;**
+        proxy_buffer_size   128k;
+        proxy_buffers   4 256k;
+        proxy_busy_buffers_size   256k;
+        http2_push_preload on;
     }
 }
+```
+
+## Verifying with a Command-Line Client (nghttp)
+
+In the output, you can see the `PUSH_PROMISE` that were pushed by the server.
+
+```
+nghttp -nv https://example.com/ | grep PUSH_PROMISE
+[  0.217] recv PUSH_PROMISE frame <length=76, flags=0x04, stream_id=13>
+[  0.217] recv PUSH_PROMISE frame <length=84, flags=0x04, stream_id=13>
+[  0.217] recv PUSH_PROMISE frame <length=75, flags=0x04, stream_id=13>
+[  0.217] recv PUSH_PROMISE frame <length=103, flags=0x04, stream_id=13>
+[  0.217] recv PUSH_PROMISE frame <length=108, flags=0x04, stream_id=13>
+[  0.217] recv PUSH_PROMISE frame <length=61, flags=0x04, stream_id=13>
+[  0.217] recv PUSH_PROMISE frame <length=90, flags=0x04, stream_id=13>
+[  0.217] recv PUSH_PROMISE frame <length=90, flags=0x04, stream_id=13>
+[  0.217] recv PUSH_PROMISE frame <length=89, flags=0x04, stream_id=13>
+[  0.217] recv PUSH_PROMISE frame <length=99, flags=0x04, stream_id=13>
 ```
