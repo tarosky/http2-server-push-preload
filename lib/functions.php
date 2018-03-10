@@ -8,7 +8,7 @@ function send_http2_link_header( $items ) {
 		foreach ( $urls as $url ) {
 			$link = sprintf(
 				'<%s>; rel=preload; as=%s',
-				esc_url( $url ),
+				esc_url_raw( $url ),
 				$as
 			);
 			header( "Link: " . $link, false );
