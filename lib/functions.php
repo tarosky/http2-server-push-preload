@@ -28,16 +28,24 @@ function get_enqueued_items() {
 	);
 }
 
+/**
+ * @param $wp_links \WP_Scripts|\WP_Styles
+ *
+ * @return array
+ */
 function get_urls( $wp_links ) {
 	$links = $wp_links->registered;
 	$queue = $wp_links->queue;
 	$default_version = $wp_links->default_version;
 
+	$wp_links->all_deps( $queue );
+	$to_do = $wp_links->to_do; // All list of items be loaded.
+
 	$host_name = parse_url( home_url(), PHP_URL_HOST );
 
 	$urls = array();
 	foreach ( $links as $handle => $meta ) {
-		if ( in_array( $handle, $queue ) && is_string( $meta->src ) ) {
+		if ( in_array( $handle, $to_do ) && is_string( $meta->src ) ) {
 			$src = $meta->src;
 			if ( preg_match( "#^http://#", $src ) ) {
 				continue;

@@ -6,7 +6,7 @@ class Http2_Server_Push_Test extends WP_UnitTestCase
 	{
 		add_action( 'wp_enqueue_scripts', function() {
 			wp_enqueue_style( 'test', 'test.css', false, 123 );
-			wp_enqueue_script( 'test', 'test.js', false, 456 );
+			wp_enqueue_script( 'test', 'test.js', array( 'jquery' ), 456 );
 		} );
 
 		do_action( 'wp_enqueue_scripts' );
