@@ -61,7 +61,7 @@ server {
 
 ## Verifying with a Command-Line Client (nghttp)
 
-In the output, you can see the `PUSH_PROMISE` that were pushed by the server.
+You can see the `PUSH_PROMISE` that were pushed by the server with the `nghttp` command like following.
 
 ```
 $ nghttp -nv https://example.com/ | grep PUSH_PROMISE
