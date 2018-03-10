@@ -26,6 +26,12 @@ add_filter( 'http2_server_push_items', function( $items ) {
 } );
 ```
 
+In this example, the response header will be sent like following.
+
+```
+Link: ..., </wp-content/uploads/favicon.png>; rel=preload; as=image, ...
+```
+
 ## Configurating HTTP/2 Server Push for Nginx
 
 You need following configuration for Nginx.
