@@ -17,8 +17,8 @@ class Http2_Server_Push_Test extends WP_UnitTestCase
 		$this->assertTrue( is_array( $urls['style'] ) );
 		$this->assertTrue( is_array( $urls['script'] ) );
 		$this->assertSame( 1, count( $urls['style'] ) );
-		$this->assertSame( 1, count( $urls['script'] ) );
+		$this->assertTrue( 3 === count( $urls['script'] ) ); // It contains jquery.
 		$this->assertSame( "test.css?ver=123", $urls['style'][0] );
-		$this->assertSame( "test.js?ver=456", $urls['script'][0] );
+		$this->assertTrue( in_array( "test.js?ver=456", $urls['script'] ) );
 	}
 }
