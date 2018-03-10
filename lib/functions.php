@@ -8,16 +8,19 @@ namespace Http2_Server_Push;
  * @param $items array
  */
 function send_http2_link_header( $items ) {
-	$items = apply_filters( 'http2_server_push_items', $items );
+	$links = array();
 	foreach( $items as $as => $urls ) {
 		foreach ( $urls as $url ) {
-			$link = sprintf(
+			$links[] = sprintf(
 				'<%s>; rel=preload; as=%s',
 				esc_url_raw( $url ),
 				$as
 			);
-			header( "Link: " . $link, false );
 		}
+	}
+
+	if ( $links ) {
+		header( "Link: " . implode( ", ", $links ), false );
 	}
 }
 
@@ -27,10 +30,12 @@ function send_http2_link_header( $items ) {
  * @return array An array of URLs.
  */
 function get_enqueued_items() {
-	return array(
+	$items = array(
 		'style' => get_urls( wp_styles() ),
 		'script' => get_urls( wp_scripts() ),
 	);
+
+	return apply_filters( 'http2_server_push_items', $items );
 }
 
 /**
@@ -52,7 +57,7 @@ function get_urls( $wp_links ) {
 
 	$urls = array();
 	foreach ( $to_do as $handle ) {
-		if ( ! empty( $links[ $handle ] ) && $links[ $handle ]->src ) {
+		if ( ! empty( $links[ $handle ] ) && $links[ $handle ]->src && is_string( $links[ $handle ]->src ) ) {
 			$src = $links[ $handle ]->src;
 			if ( preg_match( "#^http://#", $src ) ) {
 				continue;
