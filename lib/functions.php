@@ -63,7 +63,7 @@ function get_urls( $wp_links ) {
 				continue;
 			} elseif ( preg_match( "#^https://#", $src ) ) {
 				if ( 0 === strpos( $src, 'https://' . $host_name ) ) {
-					$src = preg_replace( '#https://' . $host_name . '#', '', $src );
+					$src = str_replace( 'https://' . $host_name, '', $src );
 				} else {
 					continue; // Out of the host.
 				}
