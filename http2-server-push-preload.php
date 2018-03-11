@@ -44,14 +44,3 @@ add_action( 'admin_enqueue_scripts', function() {
 	}
 	Http2_Server_Push\send_http2_link_header( Http2_Server_Push\get_preload_items() );
 }, 9999 );
-
-add_filter( 'http_request_args', function ( $response, $url ) {
-	if ( 0 === strpos( $url, 'https://api.wordpress.org/plugins/update-check' ) ) {
-		$basename = plugin_basename( __FILE__ );
-		$plugins  = json_decode( $response['body']['plugins'] );
-		unset( $plugins->plugins->$basename );
-		unset( $plugins->active[ array_search( $basename, $plugins->active ) ] );
-		$response['body']['plugins'] = json_encode( $plugins );
-	}
-	return $response;
-}, 10, 2 );
