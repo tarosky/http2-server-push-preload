@@ -31,12 +31,12 @@ if ( ! defined( 'CONCATENATE_SCRIPTS' ) ) {
 	define( 'CONCATENATE_SCRIPTS', false );
 }
 
-add_action( 'send_headers', function() {
-	if ( ! is_admin() ) {
-		do_action( 'wp_enqueue_scripts' );
-		Http2_Server_Push\send_http2_link_header( Http2_Server_Push\get_preload_items() );
+add_action( 'wp_enqueue_scripts', function() {
+	if ( headers_sent() ) {
+		return;
 	}
-} );
+	Http2_Server_Push\send_http2_link_header( Http2_Server_Push\get_preload_items() );
+}, 9999 );
 
 add_action( 'admin_enqueue_scripts', function() {
 	if ( headers_sent() ) {
