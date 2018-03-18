@@ -16,9 +16,9 @@
 require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
 require_once( dirname( __FILE__ ) . '/lib/functions.php' );
 
-add_action( 'init', 'activate_autoupdate' );
+add_action( 'init', 'http2_server_push_preload_activate_autoupdate' );
 
-function activate_autoupdate() {
+function http2_server_push_preload_activate_autoupdate() {
 	$plugin_slug = plugin_basename( __FILE__ ); // e.g. `hello/hello.php`.
 	$gh_user = 'tarosky';                      // The user name of GitHub.
 	$gh_repo = 'http2-server-push-preload';       // The repository name of your plugin.
